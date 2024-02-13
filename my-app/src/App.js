@@ -5,6 +5,8 @@ import './styles/App.css';
 import PostList from "./components/PostList";
 import MyBytton from "./components/UI/button/MyButton";
 import MyInput from "./components/UI/input/MyInput";
+import ProductItem from "./components/ProductItem";
+import ProductsContainer from "./components/ProductsContainer";
 
 function App() {
 
@@ -19,6 +21,18 @@ function App() {
     {id: 1, title: 'Photoshop', body: 'Description'},
     {id: 2, title: 'Illustrator', body: 'Description'},
     {id: 3, title: 'InDesign', body: 'Description'},
+  ])
+
+  const [products, setProducts] = useState([
+    {id: 1, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 1, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 1, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
   ])
   // const [value, setValue] = useState('Text')
 
@@ -41,7 +55,8 @@ function App() {
 
       <Counter/>
       <ClassCounter/> */}
-        
+      <ProductsContainer products={products}/>
+      
         
     </div>
   );
