@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import './styles/App.css';
 // import Counter from "./components/Counter";
 // import ClassCounter from "./components/ClassCounter";
@@ -34,15 +34,46 @@ function App() {
     {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
     {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
   ])
-  // const [value, setValue] = useState('Text')
+
+  const[post, setPost] = useState({title: '', body: ''})
+
+  // const [title, setTitle] = useState('')
+  // const [body, setBody] = useState('')
+  // const bodyInputRef = useRef();
+
+  const addNewPost = (e) => {
+    e.preventDefault();
+    
+    setPosts([...posts, {...post, id: Date.now()}])
+    setPost({title: '', body: ''})
+  }
 
   return (
     <div className="App">
       <form>
-        <MyInput type="text" placeholder="post name"/>
-        <MyInput type="text" placeholder="post description"/>
+        {/* Управляемый компонент  */}
+        <MyInput
+          value={post.title}
+          onChange={e => setPost({...post, title: e.target.value})}
+          type="text" 
+          placeholder="post name"
+         />
+         <MyInput
+          value={post.body}
+          onChange={e => setPost({...post, body: e.target.value})}
+          type="text" 
+          placeholder="post name"
+         />
         
-        <MyBytton>Create post</MyBytton>
+
+         {/* Неуправляемый компонент/Неконтролируемый компонент 
+        <MyInput
+         ref={bodyInputRef}
+         type="text" 
+         placeholder="post description"
+         /> */}
+        
+        <MyBytton onClick={addNewPost}>Create post</MyBytton>
       </form>
         <PostList posts={posts} title="Post List 1"/>
         <PostList posts={posts2} title="Post List 2"/>
