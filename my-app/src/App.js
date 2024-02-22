@@ -3,10 +3,11 @@ import './styles/App.css';
 // import Counter from "./components/Counter";
 // import ClassCounter from "./components/ClassCounter";
 import PostList from "./components/PostList";
-import MyBytton from "./components/UI/button/MyButton";
-import MyInput from "./components/UI/input/MyInput";
+
 import ProductItem from "./components/ProductItem";
 import ProductsContainer from "./components/ProductsContainer";
+import PostForm from "./components/PostForm";
+import MySelect from "./components/UI/select/MySelect";
 
 function App() {
 
@@ -35,47 +36,49 @@ function App() {
     {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
   ])
 
-  const[post, setPost] = useState({title: '', body: ''})
+
 
   // const [title, setTitle] = useState('')
   // const [body, setBody] = useState('')
   // const bodyInputRef = useRef();
 
-  const addNewPost = (e) => {
-    e.preventDefault();
-    
-    setPosts([...posts, {...post, id: Date.now()}])
-    setPost({title: '', body: ''})
+  const [selectedSort, setSelectedSort] = useState('')
+
+  const createPost = (newPost) => {
+    setPosts([...posts, newPost]);
   }
+
+  const removePost = (post) => {
+    setPosts(posts.filter(p => p.id !== post.id));
+  }
+
+  const sortPosts = (sort) => {
+    setSelectedSort(sort);
+    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
+  }
+
 
   return (
     <div className="App">
-      <form>
-        {/* Управляемый компонент  */}
-        <MyInput
-          value={post.title}
-          onChange={e => setPost({...post, title: e.target.value})}
-          type="text" 
-          placeholder="post name"
-         />
-         <MyInput
-          value={post.body}
-          onChange={e => setPost({...post, body: e.target.value})}
-          type="text" 
-          placeholder="post name"
-         />
-        
+        <PostForm create={createPost}/>
+        <hr style={{marginTop: "20px"}}/>
+        <MySelect
+          value={selectedSort}
+          onChange={sortPosts} 
+          defaultValue={"Сортировка"} 
+          options={[
+            {value: 'title', name: 'По названию'},
+            {value: 'body', name: 'По описанию'}
+          ]} 
+        />
+        {posts.length !== 0
+        ?
+        <PostList remove={removePost} posts={posts} title="Post List 1"/>
+        :
+        <h1 style={{textAlign: "center"}}>Постов нет :(</h1>
 
-         {/* Неуправляемый компонент/Неконтролируемый компонент 
-        <MyInput
-         ref={bodyInputRef}
-         type="text" 
-         placeholder="post description"
-         /> */}
+        }
         
-        <MyBytton onClick={addNewPost}>Create post</MyBytton>
-      </form>
-        <PostList posts={posts} title="Post List 1"/>
         <PostList posts={posts2} title="Post List 2"/>
       {/* <h1>{value}</h1>
       <input 
