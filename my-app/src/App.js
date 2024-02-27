@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import './styles/App.css';
 // import Counter from "./components/Counter";
 // import ClassCounter from "./components/ClassCounter";
@@ -8,6 +8,8 @@ import ProductItem from "./components/ProductItem";
 import ProductsContainer from "./components/ProductsContainer";
 import PostForm from "./components/PostForm";
 import MySelect from "./components/UI/select/MySelect";
+import MyInput from "./components/UI/input/MyInput";
+import PostFilter from "./components/PostFilter";
 
 function App() {
 
@@ -42,7 +44,20 @@ function App() {
   // const [body, setBody] = useState('')
   // const bodyInputRef = useRef();
 
-  const [selectedSort, setSelectedSort] = useState('')
+  const [filter, setFilter] = useState({sort: '', query: ''})
+
+  const sortedPosts = useMemo(() => {
+    console.log("ОТРАБОТАЛА ФУНКЦИЯ getSortedPosts");
+    if(filter.sort) {
+      return [...posts].sort((a, b) => a[filter.sort].localeCompare(b[filter.sort]))
+    }
+    return posts;
+
+  }, [filter.sort, posts]);
+
+  const sortedAndSearchedPosts = useMemo(() => {
+    return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query.toLowerCase()))
+  }, [filter.query, sortedPosts])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost]);
@@ -52,34 +67,25 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id));
   }
 
-  const sortPosts = (sort) => {
-    setSelectedSort(sort);
-    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
-  }
-
-
   return (
     <div className="App">
         <PostForm create={createPost}/>
         <hr style={{marginTop: "20px"}}/>
-        <MySelect
-          value={selectedSort}
-          onChange={sortPosts} 
-          defaultValue={"Сортировка"} 
-          options={[
-            {value: 'title', name: 'По названию'},
-            {value: 'body', name: 'По описанию'}
-          ]} 
+        <PostFilter
+          filter={filter}
+          setFilter={setFilter}
         />
-        {posts.length !== 0
+        
+        {sortedAndSearchedPosts.length !== 0
         ?
-        <PostList remove={removePost} posts={posts} title="Post List 1"/>
+        <PostList remove={removePost} posts={sortedAndSearchedPosts} title="Post List 1"/>
         :
         <h1 style={{textAlign: "center"}}>Постов нет :(</h1>
 
         }
         
         <PostList posts={posts2} title="Post List 2"/>
+
       {/* <h1>{value}</h1>
       <input 
         type="text" 
@@ -89,7 +95,8 @@ function App() {
 
       <Counter/>
       <ClassCounter/> */}
-      <ProductsContainer products={products}/>
+
+      {/* <ProductsContainer products={products}/> */}
       
         
     </div>
