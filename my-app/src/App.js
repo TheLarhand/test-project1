@@ -8,8 +8,8 @@ import ProductItem from "./components/ProductItem";
 import ProductsContainer from "./components/ProductsContainer";
 import PostForm from "./components/PostForm";
 import MySelect from "./components/UI/select/MySelect";
-import MyInput from "./components/UI/input/MyInput";
 import PostFilter from "./components/PostFilter";
+import ProductForm from "./components/ProductForm";
 
 function App() {
 
@@ -30,12 +30,12 @@ function App() {
     {id: 1, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
     {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
     {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
-    {id: 1, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
-    {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
-    {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
-    {id: 1, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
-    {id: 2, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
-    {id: 3, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 4, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 5, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 6, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 7, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 8, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
+    {id: 9, image: "https://object.pscloud.io/cms/cms/Photo/img_0_65_504_3_1.jpg", title: "монитор", price: 100000},
   ])
 
 
@@ -67,6 +67,14 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id));
   }
 
+  const createProduct = (newProduct) => {
+    setProducts([...products,newProduct]);
+  }
+
+  const removeProduct = (product) => {
+    setProducts(products.filter(p => p.id !== product.id));
+  }
+
   return (
     <div className="App">
         <PostForm create={createPost}/>
@@ -86,6 +94,8 @@ function App() {
         
         <PostList posts={posts2} title="Post List 2"/>
 
+        <hr style={{marginTop: "20px"}}/>
+
       {/* <h1>{value}</h1>
       <input 
         type="text" 
@@ -96,7 +106,9 @@ function App() {
       <Counter/>
       <ClassCounter/> */}
 
-      {/* <ProductsContainer products={products}/> */}
+      <ProductForm create={createProduct}/>
+
+      <ProductsContainer remove={removeProduct} products={products} title="Магазин"/>
       
         
     </div>
